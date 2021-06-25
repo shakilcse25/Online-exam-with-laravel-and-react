@@ -1,0 +1,274 @@
+.dtpicker-buttonCont .dtpicker-button {
+    background: cornflowerblue;
+    color: #fff !important;
+}
+
+@media (min-width: 992px){
+    .pt-lg-8, .py-lg-8 {
+        padding-top: 7rem !important;
+    }
+}
+
+@media (min-width: 768px){
+    .pt-5, .py-5 {
+        padding-top: 4rem !important;
+    }
+}
+
+.pb-8, .py-8 {
+    padding-bottom: 7rem !important;
+}
+
+.mb-5, .my-5 {
+    margin-bottom: 1rem !important;
+}
+
+.display-2 {
+    font-size: 2.30rem;
+}
+
+.tox-notifications-container{
+    display: none !important;
+}
+
+.custom-file {
+    display: flex !important;
+    align-items: center;
+}
+
+.custom-file-input {
+    opacity: 1 !important;
+    height: auto !important;
+    padding-left: 10px;
+}
+
+.add-product-card .alert, .question-tinymce .alert{
+    margin-bottom: 3rem;
+    padding: 0.4rem 1rem;
+}
+
+.product-form .alert, .question-tinymce .alert{
+    margin-top: 5px;
+    margin-bottom: 1rem;
+    padding: 0.4rem 1rem;
+}
+
+.question-tinymce .alert-danger{
+    display: none;
+}
+
+.product-form .alert-danger, .question-tinymce .alert-danger {
+    border-color: #f75676;
+    background-color: transparent !important;
+    color: #f75676 !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current{
+    background: cornflowerblue !important;
+    border-radius: 50% !important;
+    color: #fff !important;
+    border: 1px solid cornflowerblue !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+    background: transparent !important;
+    color: cornflowerblue !important;
+    border-radius: 50% !important;
+    border: 1px solid cornflowerblue !important;
+}
+#datatable-buttons-exam .btn{
+    padding: .35rem 1rem;
+    font-size: .8rem;
+}
+
+.nav-item.active .nav-link{
+    font-weight: bold;
+}
+.wpre-manage-option .select2{
+    width: 100% !important;
+}
+.add-question-card .modal-dialog {
+    max-width: 90% !important;
+}
+.option-checkbox{
+    margin-left: 10px;
+    width: 30px;
+    height: 20px;
+    cursor: pointer;
+}
+.add-question-card .select2-selection__choice{
+    display: flex;
+    align-items: center;
+    margin-right: 16px !important;
+    padding-left: 0 !important;
+    margin-bottom: 10px;
+}
+.option-text{
+    margin-bottom: 0 !important;
+    cursor: pointer;
+}
+.add-question-card .select2-selection{
+    padding: 10px 5px;
+}
+
+
+.add-question-card .select2-selection__choice__remove{
+    background-color: darkred !important;
+    color: #fff !important;
+    display: block !important;
+    width: 20px !important;
+    text-align: center !important;
+    margin-right: 16px !important;
+}
+
+.select2-results__option[aria-selected=true] {
+    display: none !important;
+}
+.select2-results__option{
+    display: none !important;
+}
+/*Add by copie*/
+
+.select2-selection__choice{
+    margin-top: 0px!important;
+    padding-right: 5px!important;
+    padding-left: 5px!important;
+    background-color: transparent!important;
+    border:none!important;
+    border-radius: 4px!important;
+    background-color: rgba(0, 139, 139, 0.09) !important;
+}
+
+.select2-selection__choice__remove{
+    border: none!important;
+    border-radius: 0!important;
+    padding: 0 2px!important;
+}
+
+.select2-selection__choice__remove:hover{
+    background-color: indianred !important;
+    color: #fff !important;
+}
+
+/*Add copy end*/
+
+/*Accrodin of question*/
+.template_faq {
+    background: #edf3fe none repeat scroll 0 0;
+}
+.panel-group {
+    background: #fff none repeat scroll 0 0;
+    border-radius: 3px;
+    box-shadow: 0 5px 30px 0 rgba(0, 0, 0, 0.04);
+    margin-bottom: 0;
+    padding: 30px;
+}
+#accordion .panel {
+    border: medium none;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0 0 15px 10px;
+}
+#accordion .panel-heading {
+    border-radius: 30px;
+    padding: 0;
+}
+#accordion .panel-title a {
+    background: #5e72e4 none repeat scroll 0 0;
+    border: 1px solid transparent;
+    border-radius: 30px;
+    color: #fff;
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 12px 20px 12px 50px;
+    position: relative;
+    transition: all 0.3s ease 0s;
+}
+#accordion .panel-title a.collapsed {
+    background: #fff none repeat scroll 0 0 !important;
+    border: 1px solid #ddd;
+    color: #172b4d;
+}
+#accordion .panel-title a:not('.collapsed') h3{
+    color: #fff !important;
+}
+
+#accordion .panel-title a::after, #accordion .panel-title a.collapsed::after {
+    background: #5e72e4 none repeat scroll 0 0;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.58);
+    color: #fff;
+    content: "\f078";
+    font-family: "Font Awesome 5 Free";
+    font-size: 25px;
+    height: 55px;
+    left: -20px;
+    line-height: 55px;
+    position: absolute;
+    text-align: center;
+    top: -5px;
+    transition: all 0.3s ease 0s;
+    width: 55px;
+}
+#accordion .panel-title a.collapsed::after {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #ddd;
+    box-shadow: none;
+    color: #5e72e4;
+    content: "\f054";
+}
+#accordion .panel-body {
+    background: transparent none repeat scroll 0 0;
+    border-top: medium none;
+    padding: 20px 25px 10px 9px;
+    position: relative;
+}
+#accordion .panel-body p {
+    border-left: 1px dashed #8c8c8c;
+    padding-left: 25px;
+}
+/*Accrodin question end*/
+
+/*Option css*/
+
+.check-list {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.check-list li {
+    position: relative;
+    padding-left: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.check-list li:not(.right):before {
+    content: 'X';
+    display: block;
+    position: absolute;
+    left: 15px;
+    top: 1px;
+    width: 5px;
+    height: 11px;
+    color: #f5365c;
+    transform-origin: bottom left;
+}
+
+.check-list li.right:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 15px;
+    top: 2px;
+    width: 5px;
+    height: 11px;
+    border-width: 0 2px 2px 0;
+    border-style: solid;
+    border-color: #00a8a8;
+    transform-origin: bottom left;
+    transform: rotate(45deg);
+}
+
+
+
+/*Option css end*/
