@@ -19,18 +19,17 @@
         <div id="{{ $collapse_id }}" class="panel-collapse in collapse {{ $show }}" role="tabpanel" aria-labelledby="{{ $heading }}">
             <div class="panel-body">
                 <div class="all-options">
-                    <h2 style="display: flex;justify-content: space-between;">Options <button class="btn btn-info" >Edit</button> </h2>
+
+                    @php
+                        $all_options   = ( $ques->options ) ? json_decode($ques->options->options_name)->options : [];
+                        $right_options = ( $ques->options && $ques->options->right_option != null ) ? json_decode($ques->options->right_option)->answer : [];
+                    @endphp
+
+                    <h2 style="display: flex;justify-content: space-between;">Options <button class="btn btn-info" onclick="editQuestion( {{ json_encode($ques) }}, {{ json_encode($all_options) }}, {{ json_encode($right_options) }} );" >Edit</button> </h2>
                     <ol type="A" class="check-list">
-
-                        @php
-                            $all_options   = ( $ques->options ) ? json_decode($ques->options->options_name)->options : [];
-                            $right_options = ( $ques->options && $ques->options->right_option != null ) ? json_decode($ques->options->right_option)->answer : [];
-                        @endphp
-
                         @foreach( $all_options as $key => $item)
                             <li class="{{ in_array( $item, $right_options, true ) ? 'right' : '' }}"> {{ $item }} </li>
                         @endforeach
-
                     </ol>
                 </div>
             </div>
@@ -38,4 +37,6 @@
     </div>
 @endforeach
 </div>
+
 @endif
+

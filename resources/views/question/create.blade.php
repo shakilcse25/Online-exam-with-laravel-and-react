@@ -24,13 +24,60 @@
                     </div>
                     <div class="card-body add-question-card">
 
-                        <div class="list-question">
+                        <div class="list-question block-this-element">
                             <div class="row">
                                 <div class="col-md-12 question-group">
 
                                         {{--ajax return dom append here--}}
 
-                                </div><!--- END COL -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="edit-questions" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+                            <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+                                <div class="modal-content">
+
+                                    <form id="question-form-edt">
+                                        @csrf
+                                        <div class="modal-header">
+                                            <h3 class="modal-title" id="modal-title-default">Create Question and it's option</h3>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div class="question-tinymce">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group question-tinymce-formgroup">
+                                                            <label for="question"> <b> Question : </b></label>
+                                                            <textarea class="form-control tinymce-edit-question" value="{{ old('question') }}" id="edit-question-tinymce" name="question"></textarea>
+
+                                                            <div class="alert alert-danger alert-dismissible fade show"  id="alert-tinymce-question" role="alert">
+                                                                <span class="alert-inner--text"> Question field is required. </span>
+                                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="wpre-manage-option">
+                                                <span class="wpre-hidden-select-option"></span>
+                                                <label for="add-wpre-option" style="margin-bottom: 4px;"><b>Add Option(s) : </b></label>
+                                                <select class="form-control wpre-select" id="edit-select" multiple="multiple"></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button id="question-submit-edit" type="button" class="btn btn-primary">Save</button>
+                                            <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
 
@@ -86,6 +133,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
 
 
@@ -104,6 +152,7 @@
     <script src="{{ asset('assets/js/tinymce.min.js') }}"></script>
 
     <script>
+        var right_ans = [];
         $(document).ready( function () {
 
             tinymce.init({
@@ -122,15 +171,33 @@
                 content_css: 'https://www.tiny.cloud/css/codepen.min.css'
             });
 
+            tinymce.init({
+                selector: '#edit-question-tinymce',
+                height: 230,
+                menubar: false,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar: 'undo redo | formatselect | ' +
+                    'bold italic backcolor | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'removeformat | help',
+                content_css: 'https://www.tiny.cloud/css/codepen.min.css'
+            });
+
+
             $(".wpre-select").select2({
                 tags: true,
                 minimumResultsForSearch: -1,
                 templateSelection: function(selection) {
                     if(selection.selected) {
-                        return $.parseHTML('<label for="'+ selection.id +'" class="option-text">' + selection.text + '</label>  <input class="option-checkbox" type="checkbox" name="answer['+ selection.id +']" >');
+                        var checked = ( selection.id == right_ans ) ? "checked" : "";
+                        return $.parseHTML('<label for="'+ selection.id +'" class="option-text">' + selection.text + '</label><input class="option-checkbox" data-check="'+ selection.id +'" type="checkbox" value="'+ selection.id +'" id="'+ selection.id +'" name="answer[]'+ selection.id +'" ' + checked + '  >');
                     }
                     else {
-                        return $.parseHTML('<label for="'+ selection.id +'" class="option-text">' + selection.text + '</label><input class="option-checkbox" type="checkbox" value="'+ selection.id +'" id="'+ selection.id +'" name="answer[]'+ selection.id +'" >');
+                        return $.parseHTML('<label for="'+ selection.id +'" class="option-text">' + selection.text + '</label><input class="option-checkbox" data-check="'+ selection.id +'" type="checkbox" value="'+ selection.id +'" id="'+ selection.id +'" name="answer[]'+ selection.id +'">');
                     }
                 }
             });
@@ -163,7 +230,7 @@
 
                 formData.question = tinyMCE.get('question').getContent();
 
-                if( formData.question.length == '' ){
+                if( formData.question.length === '' ){
                     $('#alert-tinymce-question').show();
                 }else{
                     Notiflix.Loading.Dots('Processing...');
@@ -208,19 +275,29 @@
 
             // Ajax fetch Question and Options
             function fetchQuestion() {
+                Notiflix.Block.Standard('.block-this-element', 'Loading...');
                 $('.question-group').empty();
                 $.ajax({
                     type:'GET',
                     url:"{{ route('question.index',[ 'exam_id' => $exam->id ]) }}",
                     success:function(res){
                         $('.question-group').append( $(res.html) );
+                        Notiflix.Block.Remove('.block-this-element');
                     }
                 });
             }
-
-
             fetchQuestion();
-
         });
+
+        function editQuestion( ques, options , right_options ) {
+            $('#edit-select').empty();
+            right_ans = right_options;
+            tinyMCE.get('edit-question-tinymce').setContent(ques.question);
+            options.forEach( function (opt) {
+                $('#edit-select').append($('<option selected="selected" >'+ opt +'</option>'));
+            });
+            $('#edit-questions').modal('show');
+        }
+
     </script>
 @endpush
