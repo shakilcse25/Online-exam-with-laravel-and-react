@@ -18,6 +18,7 @@ class CreateQuestionsTable extends Migration
             $table->foreignId('exam_id')
                 ->constrained('exams')
                 ->onDelete('cascade');
+            $table->float('marks');
             $table->longText('question');
         });
     }

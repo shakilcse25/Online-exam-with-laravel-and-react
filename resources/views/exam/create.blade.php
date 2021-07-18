@@ -1,5 +1,34 @@
 @extends('layouts.app', ['title' => __('Add Exam')])
 
+@push('css')
+    <style>
+        #examDur{
+            padding: 7px;
+            display: flex;
+            align-items: center;
+        }
+        #examDur span{
+            margin-right: 16px;
+        }
+        .html-duration-picker-wrapper{
+            width: 100% !important;
+            padding: 10px !important;
+        }
+        .controlsDivStyle{
+            left: unset !important;
+            right: 26px !important;
+            top: 8px !important;
+        }
+        .html-duration-picker-wrapper input{
+            box-shadow: 0 1px 3px rgb(50 50 93 / 15%), 0 1px 0 rgb(0 0 0 / 2%);
+            border: none;
+        }
+        #per-dur-container{
+            display: none;
+        }
+    </style>
+@endpush
+
 @section('content')
 
     @include('users.partials.header', [
@@ -22,7 +51,7 @@
 
                     @if (session('status') === 'success')
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <span class="alert-inner--text"> Exam added successfully! Please go to set question page to manage questions. </span>
+                            <span class="alert-inner--text"> Exam added successfully! Please go to manage exam and question page to manage everything.. </span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -75,37 +104,42 @@
                             </div>
                           </div>
                         </div>
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="startTime"> <b>Exam Start Time : </b></label>
-                                    <div class="input-group input-group-alternative mb-4">
-                                        <input class="form-control" value="{{ old('startTime') }}" placeholder="Start Time" name="startTime" data-field="datetime" type="text" readonly >
-                                        <div id="end"></div>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                        </div>
+                                    <label for="startTime"> <b>Full Exam Duration : </b></label>
+                                    <div class="input-group input-group-alternative mb-4" id="examDur">
+                                        <span><input name="isFullDuration" type="radio" id="yes" value="1" checked ><label for="yes">Yes</label></span>
+                                        <span><input name="isFullDuration" type="radio" id="no" value="0" ><label for="no">No</label></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="full-dur-container">
                                 <div class="form-group">
-                                    <label for="endTime"> <b>Exam End Time : </b></label>
+                                    <label for="endTime"> <b>Full Exam Duration( H:m:s ) : </b></label>
                                     <div class="input-group input-group-alternative mb-4">
-                                        <input class="form-control" value="{{ old('endTime') }}" placeholder="End Time" data-field="datetime" name="endTime" type="text" readonly >
-                                        <div id="start"></div>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
-                                        </div>
+                                        <input name="fullDuration" id="fullDuration" class="html-duration-picker" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="per-dur-container">
+                                <div class="form-group">
+                                    <label for="endTime"> <b>Per Question Duration ( H:m:s ) : </b></label>
+                                    <div class="input-group input-group-alternative mb-4">
+                                        <input id="perDuration" class="html-duration-picker" >
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="marks"> <b> Marks( Per Question ) : </b></label>
-                                    <input type="number" value="{{ old('marks') }}" step="0.25" name="marks" class="form-control form-control-alternative" id="marks" placeholder="Marks( Per Question )">
+                                    <label for="marks"> <b>Default Marks( Per Question ) : </b></label>
+                                    <input type="number" value="{{ old('defaultMarks') }}" step="0.25" name="defaultMarks" class="form-control form-control-alternative" id="defaultMarks" placeholder="Marks( Per Question )">
                                     @error('marks')
                                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                         <span class="alert-inner--text">{{ $message }} </span>
@@ -118,8 +152,15 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="maxExaminee"> <b> Max Examinee : </b></label>
-                                    <input type="number" value="{{ old('maxExaminee') }}" name="maxExaminee" class="form-control form-control-alternative" id="maxExaminee" placeholder="Max Examinee :">
+                                    <label for="negative"> <b> Negative Marks : </b> </label>
+
+                                    <div class="input-group mb-3">
+                                        <input type="number" step="1" id="negative" name="negative" value="0" min="0" max="100" class="form-control form-control-alternative" aria-label="">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">%</span>
+                                        </div>
+                                        <span style="font-size: 0.8em;margin-top: 3px;" >( Ex : If you give 50, then 50% marks will be reduce for every wrong answer. By default, 0% is set that means no negative marks applied. ) </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -146,11 +187,24 @@
 
 
 @push('js')
-    <script src="{{ asset('assets/js/DateTimePicker.js') }}"></script>
+    <script src="{{ asset('assets/js/html-duration-picker.min.js') }}"></script>
     <script src="{{ asset('assets/js/tinymce.min.js') }}"></script>
     <script>
-        $("#start").DateTimePicker();
-        $("#end").DateTimePicker();
+        // $("#start").DateTimePicker();
+        // $("#end").DateTimePicker();
+
+        $("#yes").click(function(){
+            $('#per-dur-container').hide();
+            $('#full-dur-container').show();
+            $('#perDuration').removeAttr('name');
+            $('#fullDuration').attr('name','fullDuration');
+        });
+        $("#no").click(function(){
+            $('#full-dur-container').hide();
+            $('#per-dur-container').show();
+            $('#fullDuration').removeAttr('name');
+            $('#perDuration').attr('name','perDuration');
+        });
 
         tinymce.init({
             selector: 'textarea.tinymce-editor',

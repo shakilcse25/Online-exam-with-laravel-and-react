@@ -7,6 +7,8 @@ import Footer from "./layout/Footer";
 import { BrowserRouter as Router,Switch,Route,Link } from "react-router-dom";
 import About from "./pages/About";
 import Exam from "./pages/Exam";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function Index() {
     return (
@@ -24,6 +26,12 @@ function Index() {
                             </Route>
                             <Route path="/exam">
                                 <Exam />
+                            </Route>
+                            <Route path="/login">
+                                <Login />
+                            </Route>
+                            <Route path="/register">
+                                <Register />
                             </Route>
                         </Switch>
                     </div>

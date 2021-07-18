@@ -104,7 +104,7 @@ export default function Header() {
         <Toolbar className="container" style={{padding: '0' }}>
 
             <Typography className={classes.title} variant="h6" noWrap>
-                <Link to="/home" style={{ display: 'flex' }}><Button style={{ color: '#fff', fontWeight: 'bold', textTransform: 'none' }}>ONLINE EXAM PLATFORM</Button></Link>
+                <Link to="/" style={{ display: 'flex' }}><Button style={{ color: '#fff', fontWeight: 'bold', textTransform: 'none' }}>ONLINE EXAM PLATFORM</Button></Link>
             </Typography>
 
             <div className={classes.grow} />
@@ -112,7 +112,7 @@ export default function Header() {
 
                 <Link to="/about" style={{ display: 'flex' }}><Button style={{ color: '#fff', fontWeight: 'bold', textTransform: 'none' }}>ABOUT</Button></Link>
                 <Link to="/exam" style={{ display: 'flex' }}><Button style={{ color: '#fff', fontWeight: 'bold', textTransform: 'none' }}>EXAM</Button></Link>
-                <Link to="/home" style={{ display: 'flex' }}><Button style={{ color: '#fff', fontWeight: 'bold', textTransform: 'none' }}>LOGIN</Button></Link>
+                <Link to="/login" style={{ display: 'flex' }}><Button style={{ color: '#fff', fontWeight: 'bold', textTransform: 'none' }}>LOGIN</Button></Link>
 
                 <IconButton aria-label="show 17 new notifications" color="inherit">
                   <Badge badgeContent={17} color="secondary">

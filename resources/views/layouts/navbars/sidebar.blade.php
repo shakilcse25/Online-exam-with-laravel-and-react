@@ -6,7 +6,7 @@
         </button>
         <!-- Brand -->
         <a class="navbar-brand pt-0" href="{{ route('home') }}">
-            <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="...">
+            <h2 style="color: royalblue;font-weight: bold;" >E-EXAM PLATFORM</h2>
         </a>
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
@@ -90,57 +90,64 @@
                 </li>
                 <li class="nav-item {{ (request()->routeIs(['exam.index','question.create'])) ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('exam.index') }}">
-                        <i class="ni ni-collection text-primary"></i> {{ __('Manage Exam') }}
+                        <i class="ni ni-collection text-primary"></i> {{ __('Manage Exam and Questions') }}
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="">
-                        <i class="ni ni-paper-diploma text-primary"></i> {{ __('Set Exam Paper') }}
+                <li class="nav-item {{ (request()->routeIs(['questions-bank.create'])) ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('questions-bank.create') }}">
+                        <i class="ni ni-single-copy-04 text-primary"></i> {{ __('Question Bank') }}
                     </a>
                 </li>
+
+                <li class="nav-item {{ (request()->routeIs(['profile.edit'])) ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('profile.edit') }}">
+                        <i class="ni ni-single-02 text-primary"></i>{{ __('User profile') }}
+                    </a>
+                </li>
+
+                @if( auth()->user()->user_role->role->name == 'admin' )
+
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-examples">
-                        <i class="fab fa-laravel"></i>
-                        <span class="nav-link-text">{{ __('Laravel Examples') }}</span>
+                        <i class="ni ni-circle-08"></i>
+                        <span class="nav-link-text">{{ __('User Management') }}</span>
                     </a>
 
                     <div class="collapse" id="navbar-examples">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('profile.edit') }}">
-                                    {{ __('User profile') }}
+                                <a class="nav-link" href="{{ route('roles.index') }}">
+                                    {{ __('Manage Roles') }}
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('user.index') }}">
-                                    {{ __('User Management') }}
-                                </a>
-                            </li>
+
                         </ul>
                     </div>
                 </li>
+
+                @endif
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('icons') }}">
                         <i class="ni ni-planet text-blue"></i> {{ __('Icons') }}
                     </a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="{{ route('map') }}">
-                        <i class="ni ni-pin-3 text-orange"></i> {{ __('Maps') }}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('table') }}">
-                      <i class="ni ni-bullet-list-67 text-default"></i>
-                      <span class="nav-link-text">Tables</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ni ni-circle-08 text-pink"></i> {{ __('Register') }}
-                    </a>
-                </li>
+                {{--<li class="nav-item ">--}}
+                    {{--<a class="nav-link" href="{{ route('map') }}">--}}
+                        {{--<i class="ni ni-pin-3 text-orange"></i> {{ __('Maps') }}--}}
+                    {{--</a>--}}
+                {{--</li>--}}
+                {{--<li class="nav-item">--}}
+                    {{--<a class="nav-link" href="{{ route('table') }}">--}}
+                      {{--<i class="ni ni-bullet-list-67 text-default"></i>--}}
+                      {{--<span class="nav-link-text">Tables</span>--}}
+                    {{--</a>--}}
+                {{--</li>--}}
+                {{--<li class="nav-item">--}}
+                    {{--<a class="nav-link" href="#">--}}
+                        {{--<i class="ni ni-circle-08 text-pink"></i> {{ __('Register') }}--}}
+                    {{--</a>--}}
+                {{--</li>--}}
             </ul>
             <!-- Divider -->
         </div>

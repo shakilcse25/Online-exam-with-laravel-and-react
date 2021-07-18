@@ -19,10 +19,16 @@ class CreateExamsTable extends Migration
             $table->string('img')->nullable();
             $table->dateTime('startTime')->nullable();
             $table->dateTime('endTime')->nullable();
-            $table->float('marks');
+            $table->tinyInteger( 'isFullDuration' )->default(1);
+            $table->string('fullDuration')->nullable();
+            $table->string('perDuration')->nullable();
+            $table->float('defaultMarks');
             $table->integer('maxExaminee')->nullable();
             $table->longText('description')->nullable();
-            $table->unsignedBigInteger('created_by');
+            $table->foreignId('created_by')
+                ->constrained('users')
+                ->onDelete('cascade');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

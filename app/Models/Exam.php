@@ -30,4 +30,12 @@ class Exam extends Model
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
+    /**
+     * Get the user that owns the exam.
+     */
+    public function questions()
+    {
+        return $this->hasMany(Question::class, 'exam_id', 'id')->with('options');
+    }
+
 }

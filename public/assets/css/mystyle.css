@@ -269,6 +269,8 @@
     transform: rotate(45deg);
 }
 
-
+.myPanel p{
+    margin-bottom: 0 !important;
+}
 
 /*Option css end*/

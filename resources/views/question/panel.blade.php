@@ -25,7 +25,7 @@
                         $right_options = ( $ques->options && $ques->options->right_option != null ) ? json_decode($ques->options->right_option)->answer : [];
                     @endphp
 
-                    <h2 style="display: flex;justify-content: space-between;">Options <button class="btn btn-info" onclick="editQuestion( {{ json_encode($ques) }}, {{ json_encode($all_options) }}, {{ json_encode($right_options) }} );" >Edit</button> </h2>
+                    <h2 style="display: flex;justify-content: space-between;">Options <p> <button class="btn btn-info" onclick="editQuestion( {{ json_encode($ques) }}, {{ json_encode($all_options) }}, {{ json_encode($right_options) }} );" >Edit</button> <button class="btn btn-danger" onclick="deleteQuestion({{ json_encode($ques) }})" >Delete</button> </p> </h2>
                     <ol type="A" class="check-list">
                         @foreach( $all_options as $key => $item)
                             <li class="{{ in_array( $item, $right_options, true ) ? 'right' : '' }}"> {{ $item }} </li>

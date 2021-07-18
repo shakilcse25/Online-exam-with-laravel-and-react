@@ -17,4 +17,9 @@ class Question extends Model
     {
         return $this->hasOne(QuestionOption::class, 'question_id', 'id');
     }
+
+    public function exam()
+    {
+        return $this->belongsTo(Exam::class, 'id', 'exam_id');
+    }
 }

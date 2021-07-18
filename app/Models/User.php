@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Exam;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -48,6 +49,14 @@ class User extends Authenticatable
     public function exam()
     {
         return $this->hasMany(Exam::class, 'created_by', 'id');
+    }
+
+    /**
+     * Get the user that owns the exam.
+     */
+    public function user_role()
+    {
+        return $this->belongsTo(UserRole::class, 'id', 'user_id');
     }
 
 

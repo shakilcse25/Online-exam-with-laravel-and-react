@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,14 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+//Route::get('/', function () {
+//    return view('index');
+//});
 
+// Route::get('{reactRoutes}', function () {
+    // return view('index'); // your start view
+// })->where('reactRoutes', '^((?!api|admin*).)*$');
 
-Route::get('/admin/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group([ 'middleware' => 'auth','prefix' => 'admin' ], function () {
+Route::group([ 'middleware' => ['auth','admin_examiner'],'prefix' => 'admin' ], function () {
     Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
     Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
     Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
@@ -29,15 +33,26 @@ Route::group([ 'middleware' => 'auth','prefix' => 'admin' ], function () {
     Route::get('exam/{exam_id}/question', ['as' => 'question.create', 'uses' => 'App\Http\Controllers\QuestionController@create']);
     Route::post('exam/{exam_id}/question', ['as' => 'question.store', 'uses' => 'App\Http\Controllers\QuestionController@store']);
     Route::get('exam/{exam_id}/question/all', ['as' => 'question.index', 'uses' => 'App\Http\Controllers\QuestionController@index']);
+    Route::get('question/{id}', ['as' => 'question.destroy', 'uses' => 'App\Http\Controllers\QuestionController@destroy']);
+    Route::post('question-update', ['as' => 'question.update', 'uses' => 'App\Http\Controllers\QuestionController@update']);
+
+    Route::resource('questions-bank', 'App\Http\Controllers\QuestionBankController');
 
 
 
-    Route::get('upgrade', function () {return view('pages.upgrade');})->name('upgrade');
-    Route::get('map', function () {return view('pages.maps');})->name('map');
+    Route::group([ 'middleware' => 'is_admin' ], function () {
+        Route::resource('roles', 'App\Http\Controllers\RoleController');
+    });
+
+
+//    Route::get('upgrade', function () {return view('pages.upgrade');})->name('upgrade');
+//    Route::get('map', function () {return view('pages.maps');})->name('map');
     Route::get('icons', function () {return view('pages.icons');})->name('icons');
-    Route::get('table-list', function () {return view('pages.tables');})->name('table');
+//    Route::get('table-list', function () {return view('pages.tables');})->name('table');
     Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 });
 
 
-Auth::routes();
+Auth::routes([
+//    'register' => false,
+]);
