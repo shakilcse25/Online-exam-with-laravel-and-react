@@ -140,7 +140,7 @@
                                 <div class="form-group">
                                     <label for="marks"> <b>Default Marks( Per Question ) : </b></label>
                                     <input type="number" value="{{ old('defaultMarks') }}" step="0.25" name="defaultMarks" class="form-control form-control-alternative" id="defaultMarks" placeholder="Marks( Per Question )">
-                                    @error('marks')
+                                    @error('defaultMarks')
                                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                         <span class="alert-inner--text">{{ $message }} </span>
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
